@@ -1,0 +1,193 @@
+  <h3>Experience</h3>
+    <fieldset>
+                <button class="btn btn-primary " id="myBtn2">Add</button>
+           <p class="">add atleast one experience item</p>
+           <hr>
+        <!-- Modal -->
+  <div class="modal fade" id="myModal2" role="dialog">
+        <div class="modal-dialog">
+           <div class="modal-content">
+             <div class="modal-header" style="padding:35px 50px;">
+                <button type="button" class="btn btn-danger btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span></button>
+                <h4 class="modal-title">Experience</h4>
+            </div>
+          <div class="modal-body">
+             <div class="row">
+                 <div class="col-md-6">
+                   <label for="compname">Company Name</label>
+                   <input type="text" class="form-control compname" id="compname" placeholder="Employer Name" name="compname" required>
+                 </div>
+                 <div class="col-md-6">
+                   <label for="jobtitle">Job Title</label>
+                   <input type="text" class="form-control jobtitle" id="jobtitle" placeholder="Job Title" name="jobtitle" required>
+                 </div>
+             </div>
+
+             <div class="row">
+                 <div class="col-md-6">
+                   <label for="jobstrdate">Start Date</label>
+                   <input type="date" class="form-control jobstrdate" id="jobstrdate" name="jobstrdate" required >
+                 </div>
+                 <div class="col-md-6">
+                   <label for="jobcmpldate"> Completion Date</label>
+                   <input type="date" class="form-control jobcmpldate" id="jobcmpldate" name="jobcmpldate" required>
+                 </div>
+             </div>
+             <hr>
+
+             <div class="row">
+                
+                   <label for="wrkroles">Responsibilities and Duties</label>
+                   <textarea class="wrkroles" name="wrkroles"  rows="4" cols="70"></textarea>
+                
+             </div>
+             <br>
+
+               <div class="row">
+                   <div class="col-md-12">
+                     
+                    <button id="add_wrkexperience" type="submit" class="btn btn-success pull-right" >Save</button>
+                   </div>
+               </div>
+            
+            </div> <!--Modal body -->
+
+           <div class="modal-footer">
+               
+          </div> <!--Modal footer --> 
+
+         </div><!--Modal Content -->
+     </div><!--Modal Dialog -->
+  </div><!--Modal Fade-->
+
+
+          <hr>
+            <!--add experience -->
+            <div class="table-responsive">
+             <table id="wrkexperience" class="table table-condensed table-striped table-bordered table-hover no-margin">
+               <thead>
+                
+                   <th style="width:20%">Employer Name</th>
+                   <th style="width:20%" class="hidden-phone">Position</th>
+                   <th style="width:10%" class="hidden-phone">Joined</th>
+                   <th style="width:10%" class="hidden-phone">Completed</th>
+                    <th style="width:10%" class="hidden-phone">Roles</th>
+                    <th style="width:10%" class="hidden-phone">Delete</th>
+                    <th style="width:10%" class="hidden-phone">Edit</th>
+                 </tr>
+               </thead>
+               <tbody>
+                
+
+               </tbody>
+             </table>
+            </div>
+
+
+       </fieldset><!-- End of practical experience Tab   -->
+
+<script type="text/javascript">
+   $(document).ready(function() {
+        
+
+        function saveData() {
+            
+            var compname = $('input.compname').val();
+            var jobtitle = $('input.jobtitle').val();
+            var jobstrdate = $('input.jobstrdate').val();
+            var jobcmpldate = $('input.jobcmpldate').val();
+            
+            //tinyMCE.triggerSave();
+            var workroles = $('textarea.wrkroles').val();
+
+            var del = "<td><a href='#' class='delete'><span class='glyphicon glyphicon-trash'></span></a></td>";
+
+            var edit = "<td><a href='#' class='edit'><span class='glyphicon glyphicon-pencil'></span></a></td>";
+
+            var newrow = "<tr class='lineitems'>" + "<td class='compname'>" + compname + "</td><td class='jobtitle'>" + jobtitle + "</td><td class='jobstrdate'>" + jobstrdate + "</td><td class='jobcmpldate'>" + jobcmpldate + "</td><td class='workroles'>" + workroles  +  del + edit + "</td></tr>";
+          
+
+            if (!compname || !jobtitle || !grade  || !jobstrdate || !jobcmpldate|| !workroles) {
+               return false;
+            }
+
+            else{
+
+              $('table#wrkexperience tbody').append(newrow);
+              $("#myModal2").modal('toggle');
+
+              $('input.compname').val('');
+              $('input.jobtitle').val('');
+              $('input.jobstrdate').val('');
+              $('input.jobcmpldate').val('');
+              $('textarea.wrkroles').val('');
+
+            }
+        
+           
+              
+            
+            
+            return false;
+
+        }//End of saveData
+
+
+        function getData(row) {
+              $('input.compname').val(row.find('td.compname').html());
+              $('input.jobtitle').val(row.find('td.jobtitle').html());
+              $('input.jobstrdate').val(row.find('td.jobstrdate').html());
+              $('input.jobcmpldate').val(row.find('td.jobcmpldate').html());
+              $('textarea.wrkroles').val(row.find('td.workroles').html());
+             
+
+        }//End of getData
+
+       function showModal(action,row) {
+             $("#myModal2").modal();
+
+              if(action === 'Edit') {
+                  getData(row);
+                  //Fire up a click event on the button
+                 $("form button#add_wrkexperience").on('click',function() {
+                      $(row).remove();
+                       saveData();
+
+                 }) 
+                
+              }
+              else{
+
+                 saveData();
+
+              }
+
+        }//End of showModal
+
+
+       $("form button#add_wrkexperience").on('click',function() {
+             showModal();
+
+             return false;
+       })//End of button#add_wrkexperience click function
+
+
+       $('table#wrkexperience').on('click','td a.edit',function() {
+
+            showModal('Edit',$(this).closest('tr'));
+            return false;
+
+       });//end of table#expereice click
+
+       $('#myBtn2').on('click',function() {
+            $("#myModal2").modal();
+            return false;
+
+       });//End of myBtn2 click
+
+
+});//end of document.ready
+    
+       
+
+</script>

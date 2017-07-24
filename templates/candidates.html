@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+
+{% block topcontent  %}
+<div class="table-responsive">
+ <table id="tbl" class="table table-condensed table-striped table-bordered table-hover no-margin">
+   <thead>
+     <tr>
+      
+       <th style="width:10%">Name</th>
+       <th style="width:10%" class="hidden-phone">Position </th>
+       <th style="width:2%" class="hidden-phone">Age</th>
+       <th style="width:2%" class="hidden-phone">Experience</th>
+        <th style="width:10%" class="hidden-phone">Photo</th>
+     </tr>
+   </thead>
+   <tbody>
+     {% for applicant in all_applicants %}
+     <tr>
+      
+       <td>
+         <span class="name"><a href="{{ applicant.get_absolute_url  }}">
+
+         {{applicant.sir_name}}</a></span>
+         
+       </td>
+       <td class="hidden-phone">{{applicant.jobtitle}}</td>
+       <td class="hidden-phone">
+         <span class="label label label-info">{% if applicant.age > 1 %}{{applicant.age}} years{% else %}{{applicant.age}}{% endif%}</span>
+       </td>
+       <td class="hidden-phone">{% if applicant.work_experience > 1 %}{{applicant.work_experience}} years {% else %}{{applicant.work_experience}} year{% endif%}</td>
+       <td class="hidden-phone">
+          <img src="/static/media/{{applicant.user_photo}}" height="40" alt="" />
+
+        </td>
+     </tr>
+  {% endfor %}
+   </tbody>
+ </table>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+         
+
+         var request = $.ajax({
+           type:"GET",
+           url:"/candidates/",
+           data:{},
+         });
+
+         request.done(function (response) {
+
+
+         });
+
+         request.fail(function(jqXHR,textStatus) {
+           console.log('Page not found ' + textStatus);
+         });
+
+
+
+
+
+
+
+
+    });//end of document.ready function
+
+</script>
+
+
+{% endblock %}

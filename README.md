@@ -1,0 +1,1 @@
+Django and Ajax CRUD application

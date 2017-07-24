@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>HR App</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="{% static 'font-awesome-4.4.0/css/font-awesome.min.css' %}" rel="stylesheet">   
+         <link href="{% static 'css/toastr.min.css' %}" rel="stylesheet">
+         <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+         <!--<link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">-->
+        <link href="{% static 'css/jquery_steps.css' %}" rel="stylesheet">
+        <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+    
+</head>
+<body>
+ <script src="{% static 'js/jquery.min.js' %}"></script>
+  {%  include 'navbar.html' %}
+  <div class="container-fluid main-container">
+      {% block mainContent %}
+     
+       {% include 'sidebar.html' %}
+      
+      <div class="col-md-10 sidebar">
+         {% block topcontent %}
+        <div class="panel panel-default">
+        	
+        	<div class="panel-body">
+
+                {% block content %}
+
+
+
+                {% endblock%}
+
+
+
+
+
+           </div>
+        </div>
+         {% endblock %}
+      
+       </div><!--end of col-md-10-->
+    	</div><!--end of container-fluid content-->
+       {% endblock %}
+
+
+
+
+    <script src="{% static 'js/jquery.validate.min.js' %}"></script>
+    <script src="{% static 'js/jquery.steps.min.js' %}"></script>
+   <!--<script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=7522f11ds6suwl7rpr84p35fx06hqtjhgwdrfpcayio8ozsk""></script>-->
+     <!--<script src="{% static 'js/tinymce.min.js' %}"></script>-->
+   <!-- <script src="{% static 'js/tether.min.js' %}"></script>-->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+   <!--<script src="{% static 'js/mdb.min.js' %}"></script>-->
+   
+    <script src="{% static 'js/toastr.min.js' %}"></script>
+    <script src="{% static 'js/django.csrf.js'  %}">  </script>
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

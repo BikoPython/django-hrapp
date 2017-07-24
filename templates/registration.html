@@ -1,0 +1,339 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<form  id="frm" role="form" enctype="multipart/form-data" class="applicantform" method="post">
+	{% csrf_token %}
+
+  <h3>Basic</h3>
+    <fieldset>
+       
+        <div class="row">
+           <div class="col-md-6">
+              
+                 <label for="sirname" data-error="wrong" data-success="right">Sir name</label>
+                 <input type="text" name="sirname" class="form-control sirname" id="sirname" placeholder="Sir Name" autofocus="autofocus">
+                  
+             
+           </div>
+           <div class="col-md-6">
+              
+                 <label for="othername"  data-error="wrong" data-success="right">Other Name</label>
+                 <input type="text" name="othername" class="form-control othername" id="othername"  placeholder="Other Name">
+                 
+             
+           </div>
+       </div>
+
+       <div class="row">
+           <div class="col-md-6">
+              
+                  
+                  <label for="email" data-error="wrong" data-success="right">Email</label>
+                 <input type="email" name="email" class="form-control email" id="email"  placeholder="Email">
+                
+              
+           </div>
+           <div class="col-md-6">
+            
+                <label for="phone" data-error="wrong" data-success="right">Phone</label>
+               <input type="number" name="phone" class="form-control phone" id="phone"  placeholder="Phone" pattern="^\d{4}-\d{3}-\d{4}$" title="You phone number">
+               
+             
+           </div>
+       </div>
+
+       <div class="row">
+           <div class="col-md-6">
+              
+               <label for="dob">Date of birth</label>
+               <input type="date" name="dob" class="form-control dob" id="dob" placeholder="Date of Birth">
+             
+           </div>
+           <div class="col-md-6">
+              
+                <label for="gender">Gender</label>
+                 <select class="form-control gender" name="gender" id="gender">
+                   <option>Male</option>
+                  <option>Female</option>
+                 </select>
+              
+           </div>
+       </div>
+
+          <div class="row">
+              <div class="col-md-6">
+                <label for="county">County</label>
+                <select class="form-control county" name="countyr" id="countyr">
+                  <option>Mombasa</option>
+                 <option>Nairobi</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                
+                   <label for="residence" data-error="wrong" data-success="right">Residence</label>
+                  <input type="text" class="form-control residence" name="residence" id="residence"  placeholder="Residence">
+                  
+                 
+              </div>
+          </div>
+
+        <div class="row">
+              <div class="col-md-6">
+                
+                     <label for="idnumber" >Id Number</label>   
+                    <input type="number" name="idnumber" class="form-control idnumber" id="idnumber"  placeholder="Id Number">
+                   
+                 
+              </div>
+              <div class="col-md-6">
+                <label for="photo">Photo (passport size)</label>
+                <input type="file" name="photo" class="form-control photo" id="photo" required >
+              </div>
+        </div>
+     <hr>
+
+
+</fieldset><!-- End of Personal Details Tab   -->
+  
+
+  <!--Education -->
+    {%  include 'education.html' %}
+
+
+<!--Practical Experience -->
+
+   {%  include 'experience.html' %}
+
+<!-- About -->
+ <h3>About</h3>
+    <fieldset>
+   
+      <label class="label label-info">Give a brief description about yourself that makes you suitable for this job</label>
+      <textarea id="abt" name="abt" class="abt" rows="8" cols="85" required></textarea>
+</fieldset>
+
+  <!--Referees -->
+  {% include 'referees.html' %}
+
+
+
+
+
+  </form>
+
+<script type="text/javascript">
+
+$(document).ready(function () {
+      
+        function Education(educationItems) {
+           //Education
+           this.institution_name=educationItems['instname'];
+           this.course_name =educationItems['coursename'];
+           this.grade = educationItems['grade'];
+           this.award = educationItems['award'];
+           this.start_date = educationItems['strdate'];
+           this.completion_date = educationItems['cmpldate'];
+
+         }
+
+       function WorkExperience(wrkExperience) {
+           //Experience
+           this.name_of_org = wrkExperience['compname'];
+           this.jobtitle = wrkExperience['jobtitle'];
+           this.tasks = wrkExperience['jobroles'];
+           this.date_employed = wrkExperience['jobstrdate'];
+           this.date_completed = wrkExperience['jobcmpldate'];
+        }
+
+
+       function Referee(referees) {
+           //Referee
+           this.ref_name = referees['refname'];
+           this.ref_phone = referees['refphone'];
+           this.ref_email = referees['refemail'];
+           this.ref_occupation = referees['refjob'];
+        }
+
+    
+      $(document).on('submit', 'form.applicantform', function(){
+             
+            let applicantWrkExperience = [];
+            let applicantsEducation = [];
+            let applicantsReferees = [];
+
+
+            $('table#education tr.lineitems').each(function() {                  
+                 var educationItems = {
+                    //Education 
+                    instname : $(this).find('td.instname').html(),
+                    coursename : $(this).find('td.coursename').html(),
+                    grade : $(this).find('td.grade').html(),
+                    award : $(this).find('td.award').html(),
+                    strdate :$(this).find('td.strdate').html(),
+                    cmpldate:$(this).find('td.cmpldate').html(),
+                   
+                 };
+
+                  //create a js applicant object
+                 let applicant_obj = new Education(educationItems);
+                
+                 //push the objects to an array
+                 applicantsEducation.push(applicant_obj);
+              
+
+            });//END OF TABLE LOOP
+
+
+           $('table#wrkexperience tr.lineitems').each(function() {
+                                
+                 var wrkExperience = {
+                   
+                    //Work Experience
+                    compname:$(this).find('td.compname').html(),
+                    jobtitle:$(this).find('td.jobtitle').html(),
+                    jobstrdate:$(this).find('td.jobstrdate').html(),
+                    jobcmpldate:$(this).find('td.jobcmpldate').html(),
+                    jobroles:$(this).find('td.workroles').html()                
+
+                 };
+               
+                //create a js applicant object
+                let applicantEduObj = new WorkExperience(wrkExperience);
+                
+                //push the objects to an array
+                applicantWrkExperience.push(applicantEduObj);
+              
+          });//END OF TABLE LOOP
+
+
+          
+          $('table#referees tr.lineitems').each(function() {
+                                
+                 var referee = {
+                   
+                      //referees
+                    refname:$(this).find('td.refname').html(),
+                    refjob:$(this).find('td.refjob').html(),
+                    refphone:$(this).find('td.refphone').html(),
+                    refemail:$(this).find('td.refemail').html(),               
+
+                 };
+               
+                //create a js applicant object
+                let refereeObj = new Referee(referee);
+                
+                //push the objects to an array
+                applicantsReferees.push(refereeObj);
+              
+          });//END OF TABLE LOOP
+            
+          //To allow us get the value from the textarea
+          //tinyMCE.triggerSave();   
+
+          var ApplicantBasicDetails = {
+              //Basic Info
+              email : $('input.email').val(),
+              idnumber : $('input.idnumber').val(),
+              sirname : $('input.sirname').val(),
+              othername : $('input.othername').val(),
+              phone: $('input.phone').val(),
+              dob : $('input.dob').val(),
+              gender : $('select.gender').val(),
+              county : $('select.county').val(),
+              //photo : $('input.photo').val(),
+                 //About you
+
+              abt:$('textarea.abt').val(),
+
+          }
+						 
+              
+           var files = $('input.photo').get(0).files;
+          
+          //create a formdata object and add the files
+           var formdata = new FormData();
+
+           $.each(files,function(index,file) {
+             formdata.append('image',file)
+           });
+
+          
+           //convert the js object to json
+           let educationJson = JSON.stringify(applicantsEducation);
+           let wrkexperienceJson = JSON.stringify(applicantWrkExperience);
+           let refereesJson = JSON.stringify(applicantsReferees);
+           let ApplicantDetailsJson = JSON.stringify(ApplicantBasicDetails);
+           
+          
+
+           formdata.append('education',educationJson);
+           formdata.append('wrkexperience',wrkexperienceJson);
+           formdata.append('referees',refereesJson);
+           formdata.append('ApplicantDetails',ApplicantDetailsJson);
+
+           //make an ajax request to submit data to sever
+
+
+           //check the validity of the form 
+            // the form is not valid
+           //if (!event.target.checkValidity()) {
+        
+             //toastr.info('Something went wrong check your fields')
+             //return false;
+
+           //}
+
+           
+
+          let request = $.ajax({
+               type: "POST",
+               url: "/apply/",
+               data:formdata,
+               cache:false,
+               processData:false,
+               contentType:false,     
+          });
+
+          request.done(function(response) {
+             toastr.success('The application was successful');
+             $('input#btnpost').prop('disabled', true);
+              //window.location.href='http://localhost:8000/apply/';
+              
+
+           });
+
+         request.fail(function(jqXHR,textStatus) {
+             toastr.warning('Page not found ' + textStatus)
+
+         });
+
+           
+          
+
+
+        return false;
+
+
+      });//end of document .ready submit form function
+
+      
+     
+     $(document).on('click', 'td a.delete', function () {
+          $(this).closest('tr').find('td').fadeOut(1000,
+
+             function () {
+                
+                $(this).parents('tr:first').remove();
+            });
+
+          return false;
+      });
+
+
+ })//end of document.ready
+
+  </script>
+
+{% endblock %}

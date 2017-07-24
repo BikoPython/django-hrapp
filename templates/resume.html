@@ -1,0 +1,318 @@
+{% extends 'base.html' %}
+
+
+{% block topcontent  %}
+
+ <style type="text/css">
+
+   
+#container {
+	background: #fff;
+	width: 750px;
+	font-family: "Trebuchet MS", arial;
+	box-shadow: 0 0 30px rgba(0,0,0,0.4);
+	-moz-box-shadow: 0 0 30px rgba(0,0,0,0.4);
+	-webkit-box-shadow: 0 0 30px rgba(0,0,0,0.4);
+	box-shadow: 0 -5px 0 #efefef inset;
+	-moz-box-shadow: 0 -5px 0 #efefef inset;
+	-webkit-box-shadow: 0 -5px 0 #efefef inset;
+}
+
+/*----------Header------------*/
+
+#header {
+	background: #0099CC;
+	border-bottom: 5px solid #efefef;
+	color: #fff;
+	height: 30px;
+	padding: 14px 18px 0 18px;
+	background: -webkit-gradient(linear, left top, left bottom, from(#21b9ec), to(#0099CC));
+	background: -moz-linear-gradient(top,  #21b9ec,  #0099CC);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#21b9ec', endColorstr='#0099CC');
+}
+
+
+/*----------Section------------*/
+
+.section {
+	
+	padding: 38px 0 38px;
+	margin: 0 18px;
+}
+
+.section img {
+	float: left;
+	background: #fff;
+	border: 3px solid #cccccc;
+}
+
+.section img#profilepicture {
+	padding: 7px;
+
+}
+
+.section h1 {
+	font-family: 'LeagueGothicRegular', serif;
+	font-size: 40px;
+	color: #000;
+	letter-spacing: 0;
+	margin-top: 5px;
+	margin-left: 150px;
+}
+
+.section h2 {
+	font-family:Arial, Helvetica, sans-serif;
+	margin-top: 2px;
+	margin-left: 150px;
+	color: #0099CC;
+	font-weight: bold;
+	font-size: 14px;
+	letter-spacing: 0.2em;
+}
+
+.section ul {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	line-height: 1.8em;
+	float: right;
+	margin-top: -75px;
+	color: #666;
+}
+
+.section ul span {
+	color: #0099CC;
+	font-weight: bold;
+	font-size: 13px;
+}
+
+.section ul a {
+	color: #666;
+	text-decoration: none;
+}
+
+.section ul a:hover {
+	color: #444;
+}
+
+.section .left {
+	width: 202px;
+	float: left;
+}
+
+.section .left p {
+	font-size: 14px;
+	padding-right: 20px;
+	margin-top: 10px;
+	color: #888;
+}
+
+.section .left h3 {
+	font-family: 'LeagueGothicRegular', serif;
+	font-size: 24px;
+	color: #000;
+}
+
+.section  .right {
+	float: right;
+	width: 622px;
+}
+
+.section p {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	margin-bottom: 10px;
+	line-height: 1.3em;
+}
+
+.section h4 {
+	font-family:Arial, Helvetica, sans-serif;
+	color: #0099CC;
+	font-weight: bold;
+	font-size: 14px;
+	margin-bottom: 8px;
+}
+
+/*----------Section Top------------*/
+
+.sectiontop {
+	height: 120px;
+	padding: 38px 0 48px;
+}
+
+/*----------Personal------------*/
+
+.personal {
+	height: 100px;
+}
+
+
+/*----------Education------------*/
+
+.education {
+	height: 200px;
+}
+
+
+.row {
+	padding-bottom: 2px;
+	
+	position: relative;
+}
+
+.row h4 {
+	font-family:Arial, Helvetica, sans-serif;
+	color: #0099CC;
+	font-weight: bold;
+	font-size: 16px;
+	margin-bottom: 4px;
+}
+
+.row h5 {
+	font-family:Arial, Helvetica, sans-serif;
+	color: #999;
+	font-weight: bold;
+	font-size: 12px;
+	margin-bottom: 10px;
+}
+
+.right a {
+	text-decoration: none;
+	color: #fff;
+	padding: 7px 8px;
+	background: #666;
+	font-size: 13px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	cursor: default;
+}
+
+.right a:hover {
+	background: #aaa;
+}
+
+
+
+
+
+
+
+ </style>
+
+
+   <div id="container">
+      <div id="header">
+       
+      </div>
+
+      <div class="section sectiontop">
+        <img src="/static/media/{{applicant.user_photo}}" id="profilepicture" width="110" height="110"
+        alt="profile_picture" />
+
+        <h1>{{applicant.sir_name}}</h1>
+
+        <h2>{{applicant.jobtitle}}</h2>
+
+        <ul>
+          <li><span>E-mail:</span> <a href="#"> {{applicant.email}}</a></li>
+
+          <li><span>Phone:</span> {{applicant.phone_no}}</li>
+
+          
+        </ul>
+      </div>
+
+      <div class="section personal">
+        <div class="left">
+          <h3>Career Profile</h3>
+        </div>
+
+        <div class="right">
+          <p>{{applicant.about_applicant }}</p>
+
+        </div>
+      </div>
+
+  		
+
+      <div class="section education">
+        <div class="left">
+          <h3>Education</h3>
+
+         
+        </div>
+   
+        <div class="right">
+              
+         {% for edu in applicant.education %}
+	          <div class="row selection_education">
+	          
+	            <h4>{{edu.institution_name}}</h4>
+
+	            <h5>{{ edu.qualification }} in {{edu.course_name}} 
+	            -  {{ edu.grade_attained}}</h5>
+	           
+
+	           <a href="#">{{edu.start_date|date:'Y'}} - {{edu.completion_date|date:'Y'}}</a>
+
+	          </div>
+
+	           {% endfor %}
+        </div>
+       
+      </div><!--End of section education-->
+
+     
+
+      <div class="section education">
+        <div class="left">
+          <h3>Experience</h3>
+
+         
+        </div>
+
+        <div class="right">
+              {% for exp in applicant.experiences %}
+
+	          <div class="row selection_education">
+	            <h4>{{exp.name_of_org}}</h4>
+
+	            <h5>{{exp.position }}</h5>
+
+	            <p>{{exp.tasks}}</p><a href="#">{{exp.date_employed|date:'Y'}} - {{exp.date_completed|date:'Y'}} </a>
+	          </div>
+
+	          {% endfor %}
+        </div>
+      </div><!--End of section education-->
+
+       
+
+      <div class="section education" >
+        <div class="left">
+          <h3>Referees</h3>
+
+         
+        </div>
+
+        <div class="right" >
+              {% for ref in applicant.referees %}
+
+	          <div class="row selection_education">
+	            <h4>{{ref.ref_name}}</h4>
+
+	            <h5>{{ref.ref_email}}</h5>
+	            <h5>{{ref.ref_phone}}</h5>
+	              <h5>{{ref.ref_occupation}}</h5>
+	            
+	          </div>
+
+	          {% endfor %}
+        </div>
+      </div><!--End of section education-->
+
+
+
+    </div>
+
+{%  endblock  %}

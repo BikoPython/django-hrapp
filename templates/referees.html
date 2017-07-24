@@ -1,0 +1,201 @@
+<!--Refereess-->
+  <h3>Referees</h3>
+    <fieldset>
+         <button class="btn btn-primary " id="btnShowDialog">Add</button>
+           <p class="">Add atleast one referee item</p>
+           <hr>
+        <!-- Modal -->
+  <div class="modal fade" id="myModal3" role="dialog">
+        <div class="modal-dialog">
+           <div class="modal-content">
+             <div class="modal-header" style="padding:35px 50px;">
+                <button type="button" class="btn btn-danger btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span></button>
+                <h4 class="modal-title">Referee</h4>
+            </div>
+             <div class="modal-body">
+        
+                  <div class="row">
+                           <div class="col-md-6">
+                             <label for="refname">Name</label>
+                             <input type="text" class="form-control refname" id="refname" placeholder="Their Names" name="refname" required>
+                           </div>
+                           <div class="col-md-6">
+                             <label for="refjob">Occupation</label>
+                             <input type="text" class="form-control refjob" id="refjob" placeholder="Their job title" name="refjob" required>
+                           </div>
+                       </div>
+
+                       <div class="row">
+                           <div class="col-md-6">
+                             <label for="refphone">Phone</label>
+                             <input type="number" class="form-control refphone" id="refphone" placeholder="Their phone Number" name="refphone" required>
+                           </div>
+                           <div class="col-md-6">
+                             <label for="refemail">Email</label>
+                             <input type="email" class="form-control refemail" id="refemail" placeholder="Their email address" name="refemail" required>
+                           </div>
+                       </div>
+                        <hr>
+                     
+                        <div class="row">
+                             <div class="col-md-12">
+                                <button id="btnReferee" type="submit" class="btn btn-success pull-right" >Save</button>
+                             </div>
+
+                        </div>
+                
+              </div> <!--Modal body -->
+
+           <div class="modal-footer">
+                
+        </div> <!--Modal footer --> 
+
+      </div><!--Modal Content -->
+   </div><!--Modal Dialog -->
+</div><!--Modal Fade-->
+
+          <!--add referee -->
+        <div class="table-responsive">
+           <table id="referees" class="table table-condensed table-striped table-bordered table-hover no-margin">
+             <thead>
+               <tr>
+                 <th style="width:5%">
+                   <input class="no-margin" type="checkbox">
+                 </th>
+                 <th style="width:20%"> Name</th>
+                 <th style="width:20%" class="hidden-phone">Occupation</th>
+                 <th style="width:10%" class="hidden-phone">Phone</th>
+                 <th style="width:10%" class="hidden-phone">Email</th>
+                 <th style="width:10%" class="hidden-phone">Delete</th>
+                 <th style="width:10%" class="hidden-phone">Remove</th>
+          
+               </tr>
+             </thead>
+      
+               <tbody></tbody>
+
+             
+           </table>
+          </div>
+          <div class="row">
+
+              <input type="submit" id="btnpost" class="btn btn-success" style="margin-left:300px;" name="" value="Submit" disabled>
+
+          </div>
+</fieldset><!-- End of referees Tab   -->
+
+<script type="text/javascript">
+     
+   $(document).ready(function() {
+
+         function saveData() {
+          
+            var refname = $('input.refname').val();
+            var refjob = $('input.refjob').val();
+            var refphone = $('input.refphone').val();
+            var refemail = $('input.refemail').val();
+           
+            var tblno = $('table#referees tbody').find('tr').length;
+
+            
+            var del = "<td><a href='#' class='delete'><span class='glyphicon glyphicon-trash'></span></a></td>";
+
+            var edit = "<td><a href='#' class='edit'><span class='glyphicon glyphicon-pencil'></span></a></td>";
+
+            var newrow = "<tr class='lineitems'><td>" + ++tblno + "</td><td class='refname'>" + refname + "</td><td class='refjob'>" + refjob + "</td><td class='refphone'>" + refphone + "</td><td class='refemail'>" + refemail + "</td>" +  del + edit + "</td></tr>";
+         
+                      
+            
+            if (!refname||!refjob||!refphone || !refemail ||!jobcmpldate) {
+               return false;
+            }
+
+            else {
+
+               $('table#referees tbody').append(newrow);
+                $("#myModal3").modal('toggle');
+                $('input.refname').val('');
+                $('input.refjob').val('');
+                $('input.refphone').val('');
+                $('input.refemail').val('');
+               $('input#btnpost').prop('disabled', false);
+            }
+            
+
+            return false;
+
+
+      }//End of saveData
+
+
+       function getData(row) {
+
+            $('input.refname').val(row.find('td.refname').html());
+            $('input.refjob').val(row.find('td.refjob').html());
+            $('input.refphone').val(row.find('td.refphone').html());  
+            $('input.refemail').val(row.find('td.refemail').html());
+           
+
+        }//End of getData
+
+
+       function showModal(action,row) {
+             $("#myModal3").modal();
+
+              if(action === 'Edit') {
+                  getData(row);
+                  //Fire up a click event on the button
+                 $("form button#btnReferee").on('click',function(e) {
+                      e.stopImmediatePropagation;
+                      $(row).remove();
+                       saveData();
+
+                 }) 
+                
+              }
+              else{
+
+                 saveData();
+
+              }
+
+        }//End of showModal
+
+
+       $("form button#btnReferee").on('click',function() {
+            showModal();
+
+             //Prevents bubbling because events “bubble” from the inner element upwards          
+             return false;  
+       });//end of button#add_edu
+        
+
+       $('table#referees').on('click','td a.edit',function() {
+
+            showModal('Edit',$(this).closest('tr'));
+            return false;
+
+       });//end of table#education click
+         
+       
+      $("#btnShowDialog").on('click',function() {
+           $("#myModal3").modal();
+
+            return false;
+
+        });//End of myBtn Click  
+
+
+
+
+  });//End of document.ready
+    
+      
+
+
+
+ 
+
+        
+
+</script>       
