@@ -1,4 +1,4 @@
-#Django and Ajax CRUD application
+# Django and Ajax CRUD application.
 
 
 - hrapp accepts job applications and constructs simple user resumes.
