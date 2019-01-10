@@ -1,7 +1,7 @@
 # Django and Ajax CRUD application.
 
 
-- hrapp accepts job applications and constructs simple user resumes.
+- This is a human resouce app that accepts job applications and constructs simple user resumes.
 - This app demonstrates how to intergrate a django backend  with ajax on the frontend.
 
 ## Demo
